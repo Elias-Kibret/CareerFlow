@@ -37,7 +37,7 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Please provide role"],
   },
   employeeDetails: {
-    jobType: { type: String },
+    jobType: [{ type: String }],
     skills: [{ type: String }], // Skills the employee has
     interestedSkills: [{ type: String }], // Skills the employee is interested in
   },
@@ -49,7 +49,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     maxlength: 50, // Increased length for more detailed locations
     trim: true,
-    default: "my city",
+    
   },
 });
 
@@ -75,4 +75,4 @@ UserSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcryptjs.compare(candidatePassword, this.password);
 };
 
-export default mongoose.model("User", UserSchema);
+export const User = mongoose.model("User", UserSchema);
