@@ -1,14 +1,23 @@
 import express from "express";
+import cors from "cors";
 
 import { connectDB } from "./db/connect.js";
-import { userRouter } from "./routes/userRooutes.js";
+import { userRouter, jobRouter } from "./routes/index.js";
 import dotenv from "dotenv";
+
+// const corsOptions = {
+//   origin: "*",
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   allowedHeaders: "Content-Type, Authorization",
+// };
 
 dotenv.config();
 const app = express();
 
 const port = process.env.PORT || 4000;
 const mongoURL = process.env.MONGO_URL;
+
+// app.use(cors(corsOptions));
 
 connectDB(mongoURL)
   .then(() => {
@@ -23,26 +32,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.json({ messsage: "sucess" });
 });
-app.use("/api/users", userRouter);
+app.use("/api/user", userRouter);
+app.use("/api/jobs", jobRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-////////////////////////////////
-
-// {
-//   "firstName": "Elias",
-//   "lastName": "Kibret",
-//   "email": "et@example.com",
-//   "password": "securepassword123",
-//   "role": "employee",
-//   "companyName": "",
-//   "companyDescription": "",
-//   "jobType": ["fulltime","parttime",""],
-//   "skills": ["JavaScript", "Node.js", "React"],
-//   "interestedSkills": ["TypeScript", "GraphQL"]
-// }
-// /api/users/sign-up
-
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmI5MTA2ZDg0YzMyMTJhMWVhZjU1YTkiLCJyb2xlIjoiZW1wbG95ZWUiLCJpYXQiOjE3MjM0MDY2ODksImV4cCI6MTcyMzQ5MzA4OX0.ciPtryiUhy-quPDg4JaqsrGqSYXQtTI5wPMy4GvK-cA

@@ -49,7 +49,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     maxlength: 50, // Increased length for more detailed locations
     trim: true,
-    
   },
 });
 

@@ -112,7 +112,7 @@ export const updateProfile = async (req, res) => {
       updateFields.employeeDetails = {
         jobType,
         skills,
-        interestedSkills,
+        interstedSkills,
       };
     }
     if (userRole === "employer") {
