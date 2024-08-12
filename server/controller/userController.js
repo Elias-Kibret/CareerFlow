@@ -1,5 +1,4 @@
 import { User } from "../model/user.js";
-import bcryptjs from "bcryptjs";
 
 export const signUp = async (req, res) => {
   try {
@@ -90,5 +89,61 @@ export const getProfile = async (req, res) => {
     res.status(200).json({ user });
   } catch (error) {
     res.status(500).json({ message: "Error fetching profile", error });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const {
+      firstName,
+      lastName,
+      location,
+      jobType,
+      skills,
+      interstedSkills,
+      companyName,
+      companyDescription,
+    } = req.body;
+    const userId = req.user.userId;
+    const userRole = req.user.role;
+    const updateFields = { firstName, lastName, location };
+
+    if (userRole === "employee") {
+      updateFields.employeeDetails = {
+        jobType,
+        skills,
+        interestedSkills,
+      };
+    }
+    if (userRole === "employer") {
+      updateFields.employerDetails = {
+        companyName,
+        companyDescription,
+      };
+    }
+    const updateUser = await User.findByIdAndUpdate(userId, updateFields, {
+      new: true,
+      runValidators: true,
+    });
+    if (!updateUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating profile", error });
+  }
+};
+
+export const deleteProfile = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ message: "Profile deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting profile", error });
   }
 };

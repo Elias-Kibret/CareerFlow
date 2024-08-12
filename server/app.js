@@ -44,4 +44,5 @@ app.listen(port, () => {
 //   "interestedSkills": ["TypeScript", "GraphQL"]
 // }
 // /api/users/sign-up
-//
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmI5MTA2ZDg0YzMyMTJhMWVhZjU1YTkiLCJyb2xlIjoiZW1wbG95ZWUiLCJpYXQiOjE3MjM0MDY2ODksImV4cCI6MTcyMzQ5MzA4OX0.ciPtryiUhy-quPDg4JaqsrGqSYXQtTI5wPMy4GvK-cA
