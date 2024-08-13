@@ -59,6 +59,7 @@ export const signUp = async (req, res) => {
     const token = newUser.createJWT();
     console.log(token);
     res.status(201).json({ user: newUser, token });
+    console.log(newUser);
   } catch (error) {
     res.status(500).json({ message: "Error signing up", error });
   }
@@ -67,6 +68,7 @@ export const signUp = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(email, password);
     const user = await User.findOne({ email }).select("+password");
     if (!user) return res.status(404).json({ message: "User not found" });
     const ismatch = await user.comparePassword(password);

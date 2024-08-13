@@ -5,11 +5,11 @@ import { connectDB } from "./db/connect.js";
 import { userRouter, jobRouter } from "./routes/index.js";
 import dotenv from "dotenv";
 
-// const corsOptions = {
-//   origin: "*",
-//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//   allowedHeaders: "Content-Type, Authorization",
-// };
+const corsOptions = {
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: "Content-Type, Authorization",
+};
 
 dotenv.config();
 const app = express();
@@ -17,7 +17,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 const mongoURL = process.env.MONGO_URL;
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 connectDB(mongoURL)
   .then(() => {
