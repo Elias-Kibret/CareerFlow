@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 
 import { connectDB } from "./db/connect.js";
-import { userRouter, jobRouter } from "./routes/index.js";
+import { userRouter, jobRouter, applicationRouter } from "./routes/index.js";
 import dotenv from "dotenv";
 
 const corsOptions = {
@@ -34,6 +34,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/user", userRouter);
 app.use("/api/jobs", jobRouter);
+app.use("/api", applicationRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

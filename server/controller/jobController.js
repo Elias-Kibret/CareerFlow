@@ -1,5 +1,5 @@
 import { Job } from "../model/jobSchema.js";
-// import { UserSchema } from "../model/userSchema.js";
+import { User } from "../model/user.js";
 export const createJob = async (req, res) => {
   try {
     const {
@@ -123,5 +123,91 @@ export const updateJobStatus = async (req, res) => {
     res.status(200).json({ job });
   } catch (error) {
     res.status(500).json({ message: "Failed to update job status", error });
+  }
+};
+
+export const getJobsForUser = async (req, res) => {
+  try {
+    const userId = req.user.userId; // Assuming userId is available from authentication middleware
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const { skills: userSkills, interestedSkills, employeeDetails } = user;
+    const { jobType: preferredJobType } = employeeDetails;
+
+    // Fetch all jobs
+    let jobs = await Job.find();
+
+    // Calculate relevance
+    const calculateRelevance = (job, userSkills, interestedSkills) => {
+      const jobSkills = new Set(job.skills);
+      const userSkillSet = new Set(userSkills);
+      const interestedSkillSet = new Set(interestedSkills);
+
+      const commonSkills = [...jobSkills].filter(
+        (skill) => userSkillSet.has(skill) || interestedSkillSet.has(skill)
+      );
+      return commonSkills.length;
+    };
+
+    // Sort jobs by relevance and then by job type
+    jobs = jobs
+      .map((job) => ({
+        ...job._doc, // Convert mongoose document to plain object
+        relevance: calculateRelevance(job, userSkills, interestedSkills),
+      }))
+      .sort(
+        (a, b) =>
+          b.relevance - a.relevance ||
+          (preferredJobType ? (a.jobType === preferredJobType ? -1 : 1) : 0)
+      );
+
+    res.status(200).json({ jobs });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to get jobs", error });
+  }
+};
+
+export const applyForJob = async (req, res) => {
+  try {
+    const { jobId } = req.params;
+    const userId = req.user.userId;
+
+    // Find the job and add the user to the applicants array
+    const job = await Job.findById(jobId);
+
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    if (job.applicants.includes(userId)) {
+      return res.status(400).json({ message: "Already applied for this job" });
+    }
+
+    job.applicants.push(userId);
+    await job.save();
+    console.log("hey");
+
+    res.status(200).json({ message: "Applied successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to apply for job", error });
+  }
+};
+
+export const getJobDetails = async (req, res) => {
+  try {
+    const { jobId } = req.params;
+
+    const job = await Job.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    res.status(200).json({ job });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch job details", error });
   }
 };
