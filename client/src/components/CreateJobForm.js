@@ -86,15 +86,15 @@ export const CreateJobForm = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50 py-12 px-4">
+      <div className="flex items-center justify-center min-h-screen  py-12 px-4">
         <div className="text-lg font-medium text-gray-700">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 py-12 px-4">
-      <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg p-8">
+    <div className="flex items-center justify-center min-h-screen py-12 px-4">
+      <div className="w-full max-w-6xl shadow-lg rounded-lg p-8">
         <h1 className="text-3xl font-semibold mb-8 text-center text-blue-800">
           Create a New Job
         </h1>

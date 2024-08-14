@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useUserStore from "../Store/userStore";
 import { NAV_ITEMS, AUTH_ITEMS } from "../utils/headerConstants";
@@ -13,29 +13,65 @@ export const Header = () => {
   }));
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const headerRef = useRef(null);
+  let lastScrollTop = 0;
 
   const handleLogout = async () => {
     await logout();
     navigate("/login");
   };
 
+  const handleScroll = () => {
+    if (headerRef.current) {
+      const headerHeight = headerRef.current.clientHeight;
+      const currentScrollTop = window.pageYOffset;
+
+      if (currentScrollTop > lastScrollTop && currentScrollTop > headerHeight) {
+        // Scrolling down and past the header height
+        setIsHeaderVisible(false);
+      } else {
+        // Scrolling up
+        setIsHeaderVisible(true);
+      }
+      lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 w-full bg-blue-600 text-white py-4 px-6 shadow-md z-50">
+    <header
+      ref={headerRef}
+      className={`fixed top-0 left-0 w-full py-4 px-6 transition-transform duration-300 ${
+        isHeaderVisible ? "translate-y-0" : `-translate-y-full`
+      }`}
+    >
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold">
-          Brand
-        </Link>
+        <div className="">
+          <Link to="/" className="text-3xl font-bold text-[#F2994A]">
+            CareerPathNow
+          </Link>
+          <p className="h-4 border-solid border-8 rounded-[45%] mt-2 border-[#F2994A]"></p>
+        </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-4">
+        <nav className="hidden md:flex space-x-4 font-bold">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className="flex items-center hover:underline"
+              className={`flex items-center hover:underline ${
+                window.location.pathname === item.path
+                  ? "text-[#F2994A]"
+                  : "text-gray-800"
+              }`}
             >
               {item.icon}
-              <span className="ml-2">{item.name}</span>
+              <span className="ml-2 font-semibold">{item.name}</span>
             </Link>
           ))}
         </nav>
@@ -67,7 +103,7 @@ export const Header = () => {
           {isAuthenticated ? (
             <div className="relative">
               <button
-                className="flex items-center space-x-2 bg-blue-700 px-4 py-2 rounded-md hover:bg-blue-800 focus:outline-none"
+                className="flex items-center space-x-2 px-4 py-2 rounded-md focus:outline-none"
                 type="button"
                 aria-haspopup="true"
                 aria-expanded="false"
@@ -105,7 +141,11 @@ export const Header = () => {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className="bg-blue-700 px-4 py-2 rounded-md hover:bg-blue-800 flex items-center space-x-2"
+                  className={`px-4 py-2 rounded-md flex items-center space-x-2 ${
+                    window.location.pathname === item.path
+                      ? "text-[#F2994A]"
+                      : "text-gray-800"
+                  }`}
                 >
                   {item.icon}
                   <span>{item.name}</span>
@@ -123,7 +163,11 @@ export const Header = () => {
             <Link
               key={item.path}
               to={item.path}
-              className="block px-4 py-2 hover:bg-blue-700 flex items-center space-x-2"
+              className={`block px-4 py-2 hover:bg-blue-700 flex items-center space-x-2 ${
+                window.location.pathname === item.path
+                  ? "text-[#F2994A]"
+                  : "text-white"
+              }`}
             >
               {item.icon}
               <span>{item.name}</span>

@@ -30,7 +30,7 @@ export const AllJobs = () => {
     );
 
   return (
-    <div className="container mx-auto p-8 bg-gray-50 min-h-screen">
+    <div className="container mx-auto p-8  min-h-screen">
       <h1 className="text-3xl font-bold text-gray-900 mb-10 text-center">
         Job Openings
       </h1>
