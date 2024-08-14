@@ -13,6 +13,12 @@ export const createJob = async (req, res) => {
       postedBy,
     } = req.body;
 
+    // Log incoming data for debugging
+    console.log("Received data:", req.body);
+
+    // Validate jobType to ensure it's an array
+
+    // Create a new job document
     const newJob = new Job({
       title,
       description,
@@ -24,10 +30,20 @@ export const createJob = async (req, res) => {
       postedBy,
     });
 
+    // Save the job to the database
     await newJob.save();
+
+    // Log success
+    console.log("Job created successfully:", newJob);
+
+    // Send success response
     res.status(201).json({ message: "Job created successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Failed to create job" }, error);
+    // Log the error
+    console.error("Error creating job:", error);
+
+    // Send error response
+    res.status(500).json({ message: "Failed to create job" });
   }
 };
 
