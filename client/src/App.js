@@ -9,6 +9,8 @@ import {
   SuccesFullAppied,
   LandingPage,
   JobCreationPage,
+  SuccessPage,
+  JobsList,
 } from "./components/index.js";
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
         <Route path="/success" element={<SuccesFullAppied />} />
         <Route path="/landing" element={<LandingPage />} />
         <Route path="/create-job" element={<JobCreationPage />} />
+        <Route path="/success-created-job" element={<SuccessPage />} />
+        <Route path="/myJobs" element={<JobsList />} />
       </Route>
     </Routes>
   );

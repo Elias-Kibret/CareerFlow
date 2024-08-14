@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import useUserStore from "../Store/userStore";
 
 export const CreateJobForm = () => {
@@ -10,11 +11,38 @@ export const CreateJobForm = () => {
     company: "",
     jobType: "",
     skills: "",
+    postedBy: "", // Initially empty
   });
   const [error, setError] = useState(null);
-  const { createJob } = useUserStore((state) => ({
+  const [loading, setLoading] = useState(true); // Add loading state
+
+  // Retrieve userId and createJob from the store
+  const { createJob, user, fetchUserProfile } = useUserStore((state) => ({
     createJob: state.createJob,
+    user: state.user,
+    fetchUserProfile: state.fetchUserProfile, // Ensure this function is available
   }));
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch user profile when the component mounts
+    const fetchData = async () => {
+      await fetchUserProfile(); // Ensure user profile is fetched
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [fetchUserProfile]);
+
+  useEffect(() => {
+    if (user) {
+      setFormData((prevState) => ({
+        ...prevState,
+        postedBy: user._id || "", // Ensure user._id is available
+      }));
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -27,23 +55,42 @@ export const CreateJobForm = () => {
     // Convert skills from a comma-separated string to an array
     const skillsArray = formData.skills.split(",").map((skill) => skill.trim());
 
-    const { success } = await createJob({ ...formData, skills: skillsArray });
-    if (success) {
-      // Handle successful job creation (e.g., redirect or show a success message)
-      alert("Job created successfully!");
-      setFormData({
-        title: "",
-        description: "",
-        location: "",
-        salary: "",
-        company: "",
-        jobType: "",
-        skills: "",
-      });
-    } else {
-      setError("Failed to create job. Please try again.");
+    // Ensure postedBy is included in the data sent to the backend
+    const jobData = {
+      ...formData,
+      skills: skillsArray,
+      postedBy: formData.postedBy, // This should hold the current user ID
+    };
+
+    try {
+      const { success } = await createJob(jobData);
+      if (success) {
+        navigate("/success-created-job");
+        setFormData({
+          title: "",
+          description: "",
+          location: "",
+          salary: "",
+          company: "",
+          jobType: "",
+          skills: "",
+          postedBy: formData.postedBy, // Keep postedBy as is
+        });
+      } else {
+        setError("Failed to create job. Please try again.");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 py-12 px-4">
+        <div className="text-lg font-medium text-gray-700">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 py-12 px-4">
@@ -56,7 +103,7 @@ export const CreateJobForm = () => {
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          {/* First Column */}
+          {/* Form fields */}
           <div className="flex flex-col">
             <label
               htmlFor="title"
@@ -144,14 +191,19 @@ export const CreateJobForm = () => {
             >
               Job Type
             </label>
-            <input
-              type="text"
+            <select
               id="jobType"
               value={formData.jobType}
               onChange={handleChange}
               className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
-            />
+            >
+              <option value="">Select job type</option>
+              <option value="parttime">Part-time</option>
+              <option value="fulltime">Full-time</option>
+              <option value="contract">Contract</option>
+              <option value="internship">Internship</option>
+            </select>
           </div>
           <div className="flex flex-col md:col-span-2">
             <label

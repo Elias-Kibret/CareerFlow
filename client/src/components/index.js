@@ -8,6 +8,9 @@ import { SuccesFullAppied } from "./SuccesFullAppied.js";
 import { CreateJobForm } from "./CreateJobForm.js";
 import { LandingPage } from "./LandingPage.js";
 import { JobCreationPage } from "./JobCreationPage.js";
+import { SuccessPage } from "./SuccessPage.js";
+import { JobsList } from "./JobsList.js";
+import { UpdateJobForm } from "./UpdateJobForm.js";
 
 export {
   Login,
@@ -20,4 +23,7 @@ export {
   CreateJobForm,
   LandingPage,
   JobCreationPage,
+  SuccessPage,
+  JobsList,
+  UpdateJobForm,
 };

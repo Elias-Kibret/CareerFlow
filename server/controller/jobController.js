@@ -62,51 +62,51 @@ export const searchJobBy = async (req, res) => {
   }
 };
 
-export const updateJob = async (req, res) => {
-  try {
-    if (req.user.role !== "employer") {
-      return res
-        .status(403)
-        .json({ message: "You are not authorized to update this job" });
-    }
-    const { jobId } = req.params;
-    const updates = req.body;
+// export const updateJob = async (req, res) => {
+//   try {
+//     if (req.user.role !== "employer") {
+//       return res
+//         .status(403)
+//         .json({ message: "You are not authorized to update this job" });
+//     }
+//     const { jobId } = req.params;
+//     const updates = req.body;
 
-    const allowedUpdates = [
-      "title",
-      "description",
-      "location",
-      "salary",
-      "company",
-      "jobType",
-      "skills",
-      "status",
-    ];
+//     const allowedUpdates = [
+//       "title",
+//       "description",
+//       "location",
+//       "salary",
+//       "company",
+//       "jobType",
+//       "skills",
+//       "status",
+//     ];
 
-    const updatesToAppy = {};
+//     const updatesToAppy = {};
 
-    Object.keys(updates).forEach((update) => {
-      if (allowedUpdates.includes(update)) {
-        updatesToAppy[update] = updates[update];
-      }
-    });
+//     Object.keys(updates).forEach((update) => {
+//       if (allowedUpdates.includes(update)) {
+//         updatesToAppy[update] = updates[update];
+//       }
+//     });
 
-    const job = await Job.findOneAndUpdate(
-      { _id: jobId, postedBy: req.user.userId },
-      updatesToAppy,
-      { new: true, runValidators: true }
-    );
+//     const job = await Job.findOneAndUpdate(
+//       { _id: jobId, postedBy: req.user.userId },
+//       updatesToAppy,
+//       { new: true, runValidators: true }
+//     );
 
-    if (!job) {
-      return res
-        .status(404)
-        .json({ message: "Job not found or not authorized" });
-    }
-    res.status(200).json({ job });
-  } catch {
-    res.status(500).json({ message: "Failed to update job" });
-  }
-};
+//     if (!job) {
+//       return res
+//         .status(404)
+//         .json({ message: "Job not found or not authorized" });
+//     }
+//     res.status(200).json({ job });
+//   } catch {
+//     res.status(500).json({ message: "Failed to update job" });
+//   }
+// };
 
 export const updateJobStatus = async (req, res) => {
   try {
@@ -225,5 +225,112 @@ export const getJobDetails = async (req, res) => {
     res.status(200).json({ job });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch job details", error });
+  }
+};
+export const fetchEmployerJobs = async (req, res) => {
+  console.log(req.user);
+  try {
+    // Extract the employer ID from the logged-in user's token
+    const employerId = req.user.userId; // Check if req.user is defined
+
+    console.log("Employer ID:", employerId);
+
+    // Find the user by ID to check their role
+    if (!employerId) {
+      return res.status(400).json({ message: "No employer ID found" });
+    }
+
+    const user = await User.findById(employerId);
+    console.log("User:", user);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user is an employer
+    if (user.role !== "employer") {
+      return res
+        .status(403)
+        .json({ message: "Access denied. User is not an employer." });
+    }
+
+    // Find all jobs posted by the employer
+    const jobs = await Job.find({ postedBy: employerId });
+
+    if (!jobs.length) {
+      return res
+        .status(404)
+        .json({ message: "No jobs found for this employer" });
+    }
+
+    res.status(200).json({ jobs });
+  } catch (error) {
+    console.error("Server error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const deleteJob = async (req, res) => {
+  try {
+    // Extract the job ID from the request parameters
+    const jobId = req.params.jobId;
+    const employerId = req.user.userId;
+
+    // Check if employerId is available
+    if (!employerId) {
+      return res.status(400).json({ message: "Invalid employer ID" });
+    }
+
+    // Find the job by ID
+    const job = await Job.findById(jobId);
+
+    // Check if the job exists
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    // Check if the job is posted by the logged-in employer
+    if (job.postedBy.toString() !== employerId.toString()) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to delete this job" });
+    }
+
+    // Delete the job
+    await Job.findByIdAndDelete(jobId);
+
+    res.status(200).json({ message: "Job deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting job:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const updateJob = async (req, res) => {
+  const { jobId } = req.params;
+  const updatedJobData = req.body;
+  console.log(updatedJobData);
+
+  try {
+    // Check if the job exists
+    const job = await Job.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    // Update the job with new data
+    const updatedJob = await Job.findByIdAndUpdate(jobId, updatedJobData, {
+      new: true, // Return the updated job
+      runValidators: true, // Validate the updated data
+    });
+
+    // Respond with the updated job
+    res.status(200).json({ job: updatedJob });
+  } catch (error) {
+    // Handle errors
+    console.error("Error updating job:", error);
+    res.status(500).json({
+      message: error.message || "Failed to update job",
+    });
   }
 };
