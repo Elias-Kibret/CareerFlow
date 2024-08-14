@@ -19,6 +19,7 @@ export const JobDetails = () => {
     error,
     user,
     fetchUserProfile,
+    jobApplicationStatus,
   } = useUserStore((state) => ({
     getJobDetails: state.getJobDetails,
     applyForJob: state.applyForJob,
@@ -27,6 +28,7 @@ export const JobDetails = () => {
     error: state.error,
     user: state.user,
     fetchUserProfile: state.fetchUserProfile,
+    jobApplicationStatus: state.jobApplicationStatus,
   }));
 
   const [formData, setFormData] = useState({
@@ -58,38 +60,49 @@ export const JobDetails = () => {
   };
 
   const handleFileChange = (e) => {
-    setFormData((prevState) => ({ ...prevState, resume: e.target.files[0] }));
+    setFormData((prevState) => ({
+      ...prevState,
+      resume: e.target.files[0],
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    for (const key in formData) {
-      data.append(key, formData[key]);
-    }
+
+    const data = {
+      userId: user._id,
+      phoneNumber: formData.phone,
+      yearsOfExperience: formData.experience,
+      coverLetter: formData.coverLetter,
+      resume: formData.resume,
+    };
+
     try {
+      console.log(data);
       await applyForJob(jobId, data);
-      navigate("/"); // Redirect to job list or success page
+      navigate("/success"); // Redirect to job list or success page
     } catch (err) {
       console.error("Failed to apply for job", err);
     }
   };
 
-  if (loading)
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-lg font-medium text-gray-700">Loading...</div>
       </div>
     );
+  }
 
-  if (error)
+  if (error) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-lg font-medium text-red-600">Error: {error}</div>
       </div>
     );
+  }
 
-  if (!jobDetails)
+  if (!jobDetails) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-lg font-medium text-gray-700">
@@ -97,6 +110,7 @@ export const JobDetails = () => {
         </div>
       </div>
     );
+  }
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
@@ -141,7 +155,7 @@ export const JobDetails = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-gray-700 text-sm font-medium mb-1">
+                <label className="block text-gray-700 text-sm font-medium mb-2">
                   Phone Number
                 </label>
                 <input
@@ -149,11 +163,12 @@ export const JobDetails = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2 bg-white"
+                  placeholder="Enter your phone number"
                 />
               </div>
               <div>
-                <label className="block text-gray-700 text-sm font-medium mb-1">
+                <label className="block text-gray-700 text-sm font-medium mb-2">
                   Years of Experience
                 </label>
                 <input
@@ -161,25 +176,27 @@ export const JobDetails = () => {
                   name="experience"
                   value={formData.experience}
                   onChange={handleChange}
-                  className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2 bg-white"
                   min="0"
+                  placeholder="Enter your years of experience"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
+              <label className="block text-gray-700 text-sm font-medium mb-2">
                 Cover Letter
               </label>
               <textarea
                 name="coverLetter"
                 value={formData.coverLetter}
                 onChange={handleChange}
-                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2 bg-white"
                 rows="4"
+                placeholder="Write your cover letter here"
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1">
+              <label className="block text-gray-700 text-sm font-medium mb-2">
                 Resume (PDF only)
               </label>
               <input
@@ -187,12 +204,17 @@ export const JobDetails = () => {
                 name="resume"
                 accept=".pdf"
                 onChange={handleFileChange}
-                className="block w-full text-gray-700 border-gray-300 rounded-lg shadow-sm"
+                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2 bg-white"
               />
+              {formData.resume && (
+                <p className="mt-2 text-gray-500 text-sm">
+                  Selected file: {formData.resume.name}
+                </p>
+              )}
             </div>
             <button
               type="submit"
-              className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"
+              className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
             >
               Submit Application
             </button>

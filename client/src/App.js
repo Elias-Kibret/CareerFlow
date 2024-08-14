@@ -6,6 +6,7 @@ import {
   Layout,
   AllJobs,
   JobDetails,
+  SuccesFullAppied,
 } from "./components/index.js";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="signup" element={<SignupForm />} />
         <Route path="allJobs" element={<AllJobs />} />
         <Route path="/job/:jobId" element={<JobDetails />} />
+        <Route path="/success" element={<SuccesFullAppied />} />
       </Route>
     </Routes>
   );

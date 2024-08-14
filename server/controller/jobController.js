@@ -171,31 +171,31 @@ export const getJobsForUser = async (req, res) => {
   }
 };
 
-export const applyForJob = async (req, res) => {
-  try {
-    const { jobId } = req.params;
-    const userId = req.user.userId;
+// export const applyForJob = async (req, res) => {
+//   try {
+//     const { jobId } = req.params;
+//     const userId = req.user.userId;
 
-    // Find the job and add the user to the applicants array
-    const job = await Job.findById(jobId);
+//     // Find the job and add the user to the applicants array
+//     const job = await Job.findById(jobId);
 
-    if (!job) {
-      return res.status(404).json({ message: "Job not found" });
-    }
+//     if (!job) {
+//       return res.status(404).json({ message: "Job not found" });
+//     }
 
-    if (job.applicants.includes(userId)) {
-      return res.status(400).json({ message: "Already applied for this job" });
-    }
+//     if (job.applicants.includes(userId)) {
+//       return res.status(400).json({ message: "Already applied for this job" });
+//     }
 
-    job.applicants.push(userId);
-    await job.save();
-    console.log("hey");
+//     job.applicants.push(userId);
+//     await job.save();
+//     console.log("hey");
 
-    res.status(200).json({ message: "Applied successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Failed to apply for job", error });
-  }
-};
+//     res.status(200).json({ message: "Applied successfully" });
+//   } catch (error) {
+//     res.status(500).json({ message: "Failed to apply for job", error });
+//   }
+// };
 
 export const getJobDetails = async (req, res) => {
   try {

@@ -7,15 +7,20 @@ const useUserStore = create((set, get) => ({
   isAuthenticated: false,
   error: null,
   jobs: [],
-  jobDetails: null, // New state for job details
-  jobApplicationStatus: null, // New state for job application status
+  jobDetails: null,
+  jobApplicationStatus: null,
   loading: false,
 
   // Fetch user profile
   fetchUserProfile: async () => {
     set({ loading: true });
     try {
-      const response = await axiosInstance.get("/api/users/profile");
+      const token = get().token;
+      const response = await axiosInstance.get("/api/user/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       set({
         user: response.data.user,
         isAuthenticated: true,
@@ -163,15 +168,30 @@ const useUserStore = create((set, get) => ({
 
   // Apply for a job
   applyForJob: async (jobId, formData) => {
+    console.log(formData);
     set({ loading: true });
     try {
       const token = get().token;
-      await axiosInstance.post(`/api/jobs/apply/${jobId}`, formData, {
+
+      // Create FormData object
+      const data = new FormData();
+      data.append("userId", formData.userId);
+      data.append("jobId", jobId);
+      data.append("phoneNumber", formData.phoneNumber);
+      data.append("yearsOfExperience", formData.yearsOfExperience);
+      data.append("coverLetter", formData.coverLetter);
+
+      if (formData.resume) {
+        data.append("resume", formData.resume);
+      }
+   
+      await axiosInstance.post(`/api/applyJob/apply/${jobId}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
+
       set({
         jobApplicationStatus: "Applied successfully",
         error: null,
@@ -185,20 +205,27 @@ const useUserStore = create((set, get) => ({
       });
     }
   },
-
   // Check application status
   checkApplicationStatus: async (jobId) => {
     set({ loading: true });
     try {
       const token = get().token;
-      const response = await axiosInstance.get(`/api/jobs/application-status/${jobId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const response = await axiosInstance.get(
+        `/api/jobs/application-status/${jobId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      set({
+        jobApplicationStatus: response.data.status,
+        error: null,
+        loading: false,
       });
-      set({ jobApplicationStatus: response.data.status, error: null, loading: false });
     } catch (error) {
       set({
         jobApplicationStatus: null,
-        error: error.response?.data?.message || "Failed to check application status",
+        error:
+          error.response?.data?.message || "Failed to check application status",
         loading: false,
       });
     }
