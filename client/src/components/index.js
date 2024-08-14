@@ -5,6 +5,8 @@ import { Layout } from "./Layout.js";
 import { AllJobs } from "./AllJobs.js";
 import { JobDetails } from "./JobDetails.js";
 import { SuccesFullAppied } from "./SuccesFullAppied.js";
+import { CreateJobForm } from "./CreateJobForm.js";
+import { LandingPage } from "./LandingPage.js";
 
 export {
   Login,
@@ -14,4 +16,6 @@ export {
   AllJobs,
   JobDetails,
   SuccesFullAppied,
+  CreateJobForm,
+  LandingPage,
 };

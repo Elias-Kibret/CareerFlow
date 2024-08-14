@@ -184,7 +184,7 @@ const useUserStore = create((set, get) => ({
       if (formData.resume) {
         data.append("resume", formData.resume);
       }
-   
+
       await axiosInstance.post(`/api/applyJob/apply/${jobId}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -228,6 +228,25 @@ const useUserStore = create((set, get) => ({
           error.response?.data?.message || "Failed to check application status",
         loading: false,
       });
+    }
+  },
+  createJob: async (jobData) => {
+    set({ loading: true });
+    try {
+      const token = get().token;
+      await axiosInstance.post("/api/jobs/create", jobData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      set({ error: null, loading: false });
+      return { success: true };
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || "Failed to create job",
+        loading: false,
+      });
+      return { success: false };
     }
   },
 }));
