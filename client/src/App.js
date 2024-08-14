@@ -7,8 +7,8 @@ import {
   AllJobs,
   JobDetails,
   SuccesFullAppied,
-  CreateJobForm,
   LandingPage,
+  JobCreationPage,
 } from "./components/index.js";
 
 function App() {
@@ -20,7 +20,8 @@ function App() {
         <Route path="allJobs" element={<AllJobs />} />
         <Route path="/job/:jobId" element={<JobDetails />} />
         <Route path="/success" element={<SuccesFullAppied />} />
-        <Route path="/createJob" element={<LandingPage />} />
+        <Route path="/landing" element={<LandingPage />} />
+        <Route path="/create-job" element={<JobCreationPage />} />
       </Route>
     </Routes>
   );

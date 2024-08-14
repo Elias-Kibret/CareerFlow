@@ -1,14 +1,7 @@
-import React, { useState } from "react";
-import JobFormModal from "./JobFormModal"; // Import the modal component
-import { CreateJobForm } from "./CreateJobForm"; // Import the job creation form
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 export const LandingPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col items-center">
       {/* Hero Section */}
@@ -22,12 +15,12 @@ export const LandingPage = () => {
           your next opportunity, JobPortal is here to connect you with the right
           people.
         </p>
-        <button
-          onClick={openModal}
+        <Link
+          to="/create-job"
           className="bg-blue-500 text-white py-2 px-6 rounded-lg text-lg hover:bg-blue-600"
         >
           Post a New Job
-        </button>
+        </Link>
       </section>
 
       {/* How It Works Section */}
@@ -45,12 +38,12 @@ export const LandingPage = () => {
               Easily post your job openings with just a few clicks. Provide
               details about the role, required skills, and company information.
             </p>
-            <button
-              onClick={openModal}
+            <Link
+              to="/create-job"
               className="bg-blue-500 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-600"
             >
               Post a Job
-            </button>
+            </Link>
           </div>
           {/* Card 2 */}
           <div className="bg-white shadow-lg rounded-lg p-6 text-center">
@@ -94,21 +87,6 @@ export const LandingPage = () => {
           &copy; {new Date().getFullYear()} JobPortal. All rights reserved.
         </p>
       </footer>
-
-      {/* Job Form Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-            <button
-              onClick={closeModal}
-              className="absolute top-4 right-4 text-gray-700 hover:text-gray-900"
-            >
-              &times;
-            </button>
-            <CreateJobForm />
-          </div>
-        </div>
-      )}
     </div>
   );
 };
