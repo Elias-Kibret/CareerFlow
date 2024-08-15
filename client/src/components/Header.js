@@ -19,7 +19,7 @@ export const Header = () => {
 
   const handleLogout = async () => {
     await logout();
-    navigate("/login");
+    navigate("/");
   };
 
   const handleScroll = () => {
@@ -101,40 +101,12 @@ export const Header = () => {
         {/* User/Profile Section */}
         <div className="relative flex items-center space-x-4">
           {isAuthenticated ? (
-            <div className="relative">
-              <button
-                className="flex items-center space-x-2 px-4 py-2 rounded-md focus:outline-none"
-                type="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <img
-                  src={user?.profileImage || "https://via.placeholder.com/40"}
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full border-2 border-white"
-                />
-                <span>{user?.name}</span>
-                <IoMdArrowDropdown className="w-4 h-4 ml-2" />
-              </button>
-
-              <div
-                className="absolute right-0 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg z-10 hidden group-hover:block"
-                aria-labelledby="profile-menu"
-              >
-                <Link
-                  to="/profile"
-                  className="block px-4 py-2 hover:bg-gray-100"
-                >
-                  Update Profile
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100"
-                >
-                  Logout
-                </button>
-              </div>
-            </div>
+            <button
+              onClick={handleLogout}
+              className="w-full text-left px-4 py-2 hover:bg-gray-100"
+            >
+              Logout
+            </button>
           ) : (
             <div className="hidden md:flex items-center space-x-4">
               {AUTH_ITEMS.map((item) => (
@@ -151,6 +123,13 @@ export const Header = () => {
                   <span>{item.name}</span>
                 </Link>
               ))}
+              {/* Single Signup Button */}
+              <Link
+                to="/signup"
+                className="bg-[#F2994A] text-white px-6 py-2 rounded-full font-semibold transition-transform transform hover:scale-105"
+              >
+                Signup
+              </Link>
             </div>
           )}
         </div>

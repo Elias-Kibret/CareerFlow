@@ -1,5 +1,3 @@
-// src/SignupForm.js
-
 import React, { useState } from "react";
 import useUserStore from "../Store/userStore.js";
 
@@ -53,33 +51,37 @@ export const SignupForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 border rounded shadow-md">
-      <h2 className="text-xl font-bold mb-4">Sign Up</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="firstName"
-          value={formData.firstName}
-          onChange={handleChange}
-          placeholder="First Name"
-          className="w-full p-2 border rounded"
-          required
-        />
-        <input
-          type="text"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
-          placeholder="Last Name"
-          className="w-full p-2 border rounded"
-        />
+    <div className="max-w-lg mx-auto p-6 border border-gray-300 rounded-lg shadow-xl">
+      <h2 className="text-2xl font-bold mb-6 text-[#16171C] text-center">
+        Sign Up
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="flex gap-4">
+          <input
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            placeholder="First Name"
+            className="flex-1 p-3 border border-gray-300 rounded-lg text-[#1D4ED8] focus:outline-none focus:ring-2 focus:ring-[#F2994A]"
+            required
+          />
+          <input
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            placeholder="Last Name"
+            className="flex-1 p-3 border border-gray-300 rounded-lg text-[#1D4ED8] focus:outline-none focus:ring-2 focus:ring-[#F2994A]"
+          />
+        </div>
         <input
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
           placeholder="Email"
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg text-[#1D4ED8] focus:outline-none focus:ring-2 focus:ring-[#F2994A]"
           required
         />
         <input
@@ -88,14 +90,14 @@ export const SignupForm = () => {
           value={formData.password}
           onChange={handleChange}
           placeholder="Password"
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg text-[#1D4ED8] focus:outline-none focus:ring-2 focus:ring-[#F2994A]"
           required
         />
         <select
           name="role"
           value={formData.role}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg text-[#1D4ED8] focus:outline-none focus:ring-2 focus:ring-[#F2994A]"
         >
           <option value="employee">Employee</option>
           <option value="employer">Employer</option>
@@ -109,21 +111,23 @@ export const SignupForm = () => {
               value={formData.jobType}
               onChange={handleChange}
               placeholder="Job Type"
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg text-[#1D4ED8] focus:outline-none focus:ring-2 focus:ring-[#F2994A]"
             />
             <textarea
               name="skills"
               value={formData.skills.join(", ")}
               onChange={(e) => handleArrayChange(e, "skills")}
               placeholder="Skills (comma separated)"
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg text-[#1D4ED8] focus:outline-none focus:ring-2 focus:ring-[#F2994A]"
+              rows="4"
             />
             <textarea
               name="interestedSkills"
               value={formData.interestedSkills.join(", ")}
               onChange={(e) => handleArrayChange(e, "interestedSkills")}
               placeholder="Interested Skills (comma separated)"
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg text-[#1D4ED8] focus:outline-none focus:ring-2 focus:ring-[#F2994A]"
+              rows="4"
             />
           </>
         )}
@@ -135,14 +139,15 @@ export const SignupForm = () => {
               value={formData.companyName}
               onChange={handleChange}
               placeholder="Company Name"
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg text-[#1D4ED8] focus:outline-none focus:ring-2 focus:ring-[#F2994A]"
             />
             <textarea
               name="companyDescription"
               value={formData.companyDescription}
               onChange={handleChange}
               placeholder="Company Description"
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg text-[#1D4ED8] focus:outline-none focus:ring-2 focus:ring-[#F2994A]"
+              rows="4"
             />
           </>
         )}
@@ -152,11 +157,11 @@ export const SignupForm = () => {
           value={formData.location}
           onChange={handleChange}
           placeholder="Location"
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg text-[#1D4ED8] focus:outline-none focus:ring-2 focus:ring-[#F2994A]"
         />
         <button
           type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded"
+          className="w-full py-3 bg-[#F2994A] text-white rounded-lg shadow-md hover:bg-[#e67e22] focus:outline-none focus:ring-2 focus:ring-[#F2994A]"
         >
           Sign Up
         </button>

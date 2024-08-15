@@ -11,6 +11,9 @@ import { JobCreationPage } from "./JobCreationPage.js";
 import { SuccessPage } from "./SuccessPage.js";
 import { JobsList } from "./JobsList.js";
 import { UpdateJobForm } from "./UpdateJobForm.js";
+import { Home } from "./Home/Home.js";
+import { SignupPage } from "./SignupPage.js";
+import { LoginPage } from "./LoginPage.js";
 
 export {
   Login,
@@ -26,4 +29,7 @@ export {
   SuccessPage,
   JobsList,
   UpdateJobForm,
+  Home,
+  SignupPage,
+  LoginPage,
 };

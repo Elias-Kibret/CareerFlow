@@ -11,14 +11,18 @@ import {
   JobCreationPage,
   SuccessPage,
   JobsList,
+  Home,
+  SignupPage,
+  LoginPage,
 } from "./components/index.js";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<SignupForm />} />
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<SignupPage />} />
         <Route path="allJobs" element={<AllJobs />} />
         <Route path="/job/:jobId" element={<JobDetails />} />
         <Route path="/success" element={<SuccesFullAppied />} />
