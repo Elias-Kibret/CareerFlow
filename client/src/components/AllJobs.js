@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import useUserStore from "../Store/userStore";
+import { AllMoto } from "./AllMoto.js";
+import { Categories } from "./Home/Categories.js";
 
 // Function to randomly decide the background color
 const getRandomBackground = () =>
@@ -39,6 +41,19 @@ export const AllJobs = () => {
 
   return (
     <div className="py-16 px-4">
+      <AllMoto />
+      <Categories />
+      {/* Header Section */}
+      <div className="container mx-auto  mb-32 mt-20">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
+          Explore All Jobs
+        </h1>
+        <p className="mt-2 text-lg text-gray-600">
+          Find your next career opportunity among the latest job listings.
+        </p>
+      </div>
+
+      {/* Job Cards Section */}
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {jobs.map((job) => {
           // Determine background color for each card
