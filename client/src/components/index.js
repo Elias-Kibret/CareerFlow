@@ -14,6 +14,7 @@ import { UpdateJobForm } from "./UpdateJobForm.js";
 import { Home } from "./Home/Home.js";
 import { SignupPage } from "./SignupPage.js";
 import { LoginPage } from "./LoginPage.js";
+import {Footer} from "./Footer.js"
 
 export {
   Login,
@@ -32,4 +33,5 @@ export {
   Home,
   SignupPage,
   LoginPage,
+  Footer
 };
