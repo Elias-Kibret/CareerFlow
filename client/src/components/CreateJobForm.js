@@ -1,3 +1,4 @@
+// src/components/CreateJobForm.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../Store/userStore";
@@ -86,29 +87,22 @@ export const CreateJobForm = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen  py-12 px-4">
+      <div className="flex items-center justify-center min-h-screen py-12 px-4">
         <div className="text-lg font-medium text-gray-700">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen py-12 px-4">
-      <div className="w-full max-w-6xl shadow-lg rounded-lg p-8">
-        <h1 className="text-3xl font-semibold mb-8 text-center text-blue-800">
+    <div className="w-full flex justify-center py-12 px-4 ">
+      <div className="w-full max-w-4xl bg-white rounded-lg shadow-2xl p-16">
+        <h1 className="text-4xl font-bold  mb-12 text-center text-orange-500">
           Create a New Job
         </h1>
-        {error && <p className="text-red-600 mb-6 text-center">{error}</p>}
-        <form
-          onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
-          {/* Form fields */}
-          <div className="flex flex-col">
-            <label
-              htmlFor="title"
-              className="text-gray-800 text-sm font-medium mb-2"
-            >
+        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="title" className="block text-gray-700 mb-2">
               Job Title
             </label>
             <input
@@ -116,31 +110,25 @@ export const CreateJobForm = () => {
               id="title"
               value={formData.title}
               onChange={handleChange}
-              className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="description"
-              className="text-gray-800 text-sm font-medium mb-2"
-            >
+          <div className="mb-4">
+            <label htmlFor="description" className="block text-gray-700 mb-2">
               Job Description
             </label>
             <textarea
               id="description"
               value={formData.description}
               onChange={handleChange}
-              className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               rows="4"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="location"
-              className="text-gray-800 text-sm font-medium mb-2"
-            >
+          <div className="mb-4">
+            <label htmlFor="location" className="block text-gray-700 mb-2">
               Location
             </label>
             <input
@@ -148,15 +136,12 @@ export const CreateJobForm = () => {
               id="location"
               value={formData.location}
               onChange={handleChange}
-              className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="salary"
-              className="text-gray-800 text-sm font-medium mb-2"
-            >
+          <div className="mb-4">
+            <label htmlFor="salary" className="block text-gray-700 mb-2">
               Salary
             </label>
             <input
@@ -164,15 +149,12 @@ export const CreateJobForm = () => {
               id="salary"
               value={formData.salary}
               onChange={handleChange}
-              className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="company"
-              className="text-gray-800 text-sm font-medium mb-2"
-            >
+          <div className="mb-4">
+            <label htmlFor="company" className="block text-gray-700 mb-2">
               Company
             </label>
             <input
@@ -180,22 +162,19 @@ export const CreateJobForm = () => {
               id="company"
               value={formData.company}
               onChange={handleChange}
-              className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="jobType"
-              className="text-gray-800 text-sm font-medium mb-2"
-            >
+          <div className="mb-4">
+            <label htmlFor="jobType" className="block text-gray-700 mb-2">
               Job Type
             </label>
             <select
               id="jobType"
               value={formData.jobType}
               onChange={handleChange}
-              className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               required
             >
               <option value="">Select job type</option>
@@ -205,11 +184,8 @@ export const CreateJobForm = () => {
               <option value="internship">Internship</option>
             </select>
           </div>
-          <div className="flex flex-col md:col-span-2">
-            <label
-              htmlFor="skills"
-              className="text-gray-800 text-sm font-medium mb-2"
-            >
+          <div className="mb-4">
+            <label htmlFor="skills" className="block text-gray-700 mb-2">
               Skills (comma-separated)
             </label>
             <input
@@ -217,16 +193,18 @@ export const CreateJobForm = () => {
               id="skills"
               value={formData.skills}
               onChange={handleChange}
-              className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               required
             />
           </div>
-          <button
-            type="submit"
-            className="w-full py-3 px-6 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 md:col-span-2"
-          >
-            Create Job
-          </button>
+          <div className="flex items-center justify-center">
+            <button
+              type="submit"
+              className="px-6 py-3 bg-orange-500 text-white rounded-lg shadow-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+              Create Job
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -6,7 +6,8 @@ dotenv.config();
 // Replace with your MongoDB connection string
 const mongoURL = process.env.MONGO_URL;
 
-const userId = "66bbb6378769ce56d0368787"; // Example user ID
+const userId = "66bc2638063324f3c035d866"; // Example user ID
+
 const jobs = [
   {
     title: "Software Engineer",
@@ -149,5 +150,25 @@ const jobs = [
     applicants: [],
   },
 ];
+
+const seedJobs = async () => {
+  try {
+    // Connect to MongoDB
+    await mongoose.connect(mongoURL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    // Insert jobs into the database
+    await Job.insertMany(jobs);
+
+    console.log("Jobs successfully inserted");
+  } catch (error) {
+    console.error("Error inserting jobs:", error);
+  } finally {
+    // Close the database connection
+    mongoose.connection.close();
+  }
+};
 
 seedJobs();

@@ -105,29 +105,29 @@ export const JobDetails = () => {
   }
 
   return (
-    <div className="py-16 px-4 bg-gray-100">
+    <div className="py-16 px-6 mt-32">
       <div className="container mx-auto bg-white rounded-3xl shadow-lg">
         {/* Job Details Header */}
-        <div className="bg-gray-800 text-white p-6 rounded-t-3xl">
-          <h2 className="text-3xl font-bold">
+        <div className="bg-gray-800 text-white p-12 rounded-t-3xl shadow-md">
+          <h2 className="text-4xl font-bold mb-4">
             {jobDetails.title || "No Title Available"}
           </h2>
-          <p className="text-lg mt-2">
+          <p className="text-xl mb-4">
             {jobDetails.location || "Location not provided"}
           </p>
-          <p className="mt-4 text-lg">
+          <p className="text-lg mb-6">
             {jobDetails.description || "No Description Available"}
           </p>
-          <p className="mt-2 text-lg">
+          <p className="text-lg">
             Salary: ${jobDetails.salary || "Not disclosed"}
           </p>
         </div>
         {/* Company Details */}
-        <div className="p-6 border-t border-gray-200 bg-gray-50">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+        <div className="p-12 border-t border-gray-200 bg-gray-50 shadow-md">
+          <h3 className="text-3xl font-semibold text-gray-800 mb-6">
             Company Details
           </h3>
-          <p className="text-lg mb-2">
+          <p className="text-xl mb-4">
             {jobDetails.companyName || "Company name not available"}
           </p>
           <p className="text-gray-700 text-lg">
@@ -136,14 +136,14 @@ export const JobDetails = () => {
           </p>
         </div>
         {/* Application Form */}
-        <div className="p-6 border-t border-gray-200 bg-gray-100 rounded-b-3xl">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6">
+        <div className="p-12 border-t border-gray-200 bg-gray-100 rounded-b-3xl shadow-md">
+          <h3 className="text-3xl font-semibold text-gray-800 mb-8">
             Apply for this Job
           </h3>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <label className="block text-gray-700 text-sm font-medium mb-2">
+                <label className="block text-gray-700 text-base font-medium mb-4">
                   Phone Number
                 </label>
                 <input
@@ -151,12 +151,12 @@ export const JobDetails = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500 px-4 py-2 bg-white"
+                  className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500 px-5 py-3 bg-white shadow-md"
                   placeholder="Enter your phone number"
                 />
               </div>
               <div>
-                <label className="block text-gray-700 text-sm font-medium mb-2">
+                <label className="block text-gray-700 text-base font-medium mb-4">
                   Years of Experience
                 </label>
                 <input
@@ -164,27 +164,27 @@ export const JobDetails = () => {
                   name="experience"
                   value={formData.experience}
                   onChange={handleChange}
-                  className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500 px-4 py-2 bg-white"
+                  className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500 px-5 py-3 bg-white shadow-md"
                   min="0"
                   placeholder="Enter your years of experience"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">
+              <label className="block text-gray-700 text-base font-medium mb-4">
                 Cover Letter
               </label>
               <textarea
                 name="coverLetter"
                 value={formData.coverLetter}
                 onChange={handleChange}
-                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500 px-4 py-2 bg-white"
-                rows="4"
+                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500 px-5 py-3 bg-white shadow-md"
+                rows="6"
                 placeholder="Write your cover letter here"
               />
             </div>
             <div>
-              <label className="block text-gray-700 text-sm font-medium mb-2">
+              <label className="block text-gray-700 text-base font-medium mb-4">
                 Resume (PDF only)
               </label>
               <input
@@ -192,7 +192,7 @@ export const JobDetails = () => {
                 name="resume"
                 accept=".pdf"
                 onChange={handleFileChange}
-                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500 px-4 py-2 bg-white"
+                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500 px-5 py-3 bg-white shadow-md"
               />
               {formData.resume && (
                 <p className="mt-2 text-gray-500 text-sm">
@@ -202,7 +202,7 @@ export const JobDetails = () => {
             </div>
             <button
               type="submit"
-              className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out"
+              className="w-full px-6 py-3 bg-gray-800 text-white rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out shadow-lg"
             >
               Submit Application
             </button>
