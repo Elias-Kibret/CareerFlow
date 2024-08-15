@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useUserStore from "../Store/userStore";
-import {
-  FaMapMarkerAlt,
-  FaDollarSign,
-  FaBriefcase,
-  FaBuilding,
-} from "react-icons/fa";
 
 export const JobDetails = () => {
   const { jobId } = useParams();
@@ -19,7 +13,6 @@ export const JobDetails = () => {
     error,
     user,
     fetchUserProfile,
-    jobApplicationStatus,
   } = useUserStore((state) => ({
     getJobDetails: state.getJobDetails,
     applyForJob: state.applyForJob,
@@ -28,7 +21,6 @@ export const JobDetails = () => {
     error: state.error,
     user: state.user,
     fetchUserProfile: state.fetchUserProfile,
-    jobApplicationStatus: state.jobApplicationStatus,
   }));
 
   const [formData, setFormData] = useState({
@@ -113,23 +105,20 @@ export const JobDetails = () => {
   }
 
   return (
-    <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="py-16 px-4 bg-gray-100">
+      <div className="container mx-auto bg-white rounded-3xl shadow-lg">
         {/* Job Details Header */}
-        <div className="bg-gradient-to-r from-blue-500 to-blue-700 p-6 text-white">
-          <h2 className="text-3xl font-bold flex items-center gap-3">
-            <FaBriefcase className="text-4xl" />
+        <div className="bg-gray-800 text-white p-6 rounded-t-3xl">
+          <h2 className="text-3xl font-bold">
             {jobDetails.title || "No Title Available"}
           </h2>
-          <p className="text-lg mt-2 flex items-center gap-2">
-            <FaMapMarkerAlt className="text-gray-200" />
+          <p className="text-lg mt-2">
             {jobDetails.location || "Location not provided"}
           </p>
           <p className="mt-4 text-lg">
             {jobDetails.description || "No Description Available"}
           </p>
-          <p className="mt-2 flex items-center gap-2 text-lg">
-            <FaDollarSign className="text-gray-200" />
+          <p className="mt-2 text-lg">
             Salary: ${jobDetails.salary || "Not disclosed"}
           </p>
         </div>
@@ -138,8 +127,7 @@ export const JobDetails = () => {
           <h3 className="text-2xl font-semibold text-gray-800 mb-4">
             Company Details
           </h3>
-          <p className="text-lg flex items-center gap-2 mb-2">
-            <FaBuilding className="text-gray-500 text-xl" />
+          <p className="text-lg mb-2">
             {jobDetails.companyName || "Company name not available"}
           </p>
           <p className="text-gray-700 text-lg">
@@ -148,7 +136,7 @@ export const JobDetails = () => {
           </p>
         </div>
         {/* Application Form */}
-        <div className="p-6 border-t border-gray-200 bg-gray-100">
+        <div className="p-6 border-t border-gray-200 bg-gray-100 rounded-b-3xl">
           <h3 className="text-2xl font-semibold text-gray-800 mb-6">
             Apply for this Job
           </h3>
@@ -163,7 +151,7 @@ export const JobDetails = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2 bg-white"
+                  className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500 px-4 py-2 bg-white"
                   placeholder="Enter your phone number"
                 />
               </div>
@@ -176,7 +164,7 @@ export const JobDetails = () => {
                   name="experience"
                   value={formData.experience}
                   onChange={handleChange}
-                  className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2 bg-white"
+                  className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500 px-4 py-2 bg-white"
                   min="0"
                   placeholder="Enter your years of experience"
                 />
@@ -190,7 +178,7 @@ export const JobDetails = () => {
                 name="coverLetter"
                 value={formData.coverLetter}
                 onChange={handleChange}
-                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2 bg-white"
+                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500 px-4 py-2 bg-white"
                 rows="4"
                 placeholder="Write your cover letter here"
               />
@@ -204,7 +192,7 @@ export const JobDetails = () => {
                 name="resume"
                 accept=".pdf"
                 onChange={handleFileChange}
-                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2 bg-white"
+                className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500 px-4 py-2 bg-white"
               />
               {formData.resume && (
                 <p className="mt-2 text-gray-500 text-sm">
@@ -214,7 +202,7 @@ export const JobDetails = () => {
             </div>
             <button
               type="submit"
-              className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
+              className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-300 ease-in-out"
             >
               Submit Application
             </button>
